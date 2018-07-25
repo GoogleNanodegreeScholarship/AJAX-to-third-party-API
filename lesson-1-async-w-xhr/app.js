@@ -24,7 +24,6 @@
     function addImage() {
       let htmlContent = '';
       let data = JSON.parse(this.responseText);
-      console.log(data)
       if (data && data.results && data.results[0]) {
         let firstImage = data.results[0];
         htmlContent = `<figure>
