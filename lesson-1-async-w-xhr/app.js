@@ -16,6 +16,11 @@
     unsplashRequest.setRequestHeader('Authorization', 'Client-ID ed4ea3b388f4503fa9a5817e2e5250171fd92b3b61ff520ff9f6027cff251a67');
     unsplashRequest.send();
 
+    const articleRequest = new XMLHttpRequest();
+    articleRequest.onload = addArticles;
+    articleRequest.open('GET', `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=0fd16f9ca25b4e0ea140b5e5aa1aa085`);
+    articleRequest.send();
+
     function addImage() {
       let htmlContent = '';
       let data = JSON.parse(this.responseText);
@@ -31,6 +36,22 @@
       }
       responseContainer.insertAdjacentHTML('afterbegin', htmlContent);
     }
-  });
-})
+
+    function addArticles () {
+      let htmlContent = '';
+      let data = JSON.parse(this.responseText);
+      if (data.response && data.response.docs && data.response.docs.length > [0]) {
+        htmlContent = '<ul>' + data.response.docs.map(article => `<li class='article">
+          <h2><a href="${article.web_url}"${article.headline.main}</a></h2>
+          <p>${article.snippet}</p>
+          </li>`
+        ).join('') +  '<ul>';
+        } else {
+          htmlContent = '<div class="error-no-articles">No articles available</div>';
+        }
+      responseContainer.insertAdjacentHTML('afterbegin', htmlContent);
+      }
+    }
+    );
+  })
 ();
