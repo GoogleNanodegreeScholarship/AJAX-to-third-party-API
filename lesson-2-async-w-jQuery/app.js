@@ -26,10 +26,20 @@
   function addArticle(article) {
     let htmlContent = '';
     const articles = article.response.docs;
-		let map = articles.map(article =>
-      htmlContent = '<ul>' + responseContainer.insertAdjacentHTML('afterbegin', `<li class="article"><h2><a href="${article.web_url}">
-      ${article.snippet}</a></h2></li>` + '</ul>'
-		));
+    console.log(article)
+    if(article.web_url) {
+      htmlContent = '<ul>' + articles.map(article =>
+        `<li class="article">
+           <h2>
+             <a href="${article.web_url}">${article.snippet}</a>
+          </h2>
+        </li>` + '</ul>'
+      )
+    }
+    else{
+      htmlContent = "No articles for this topic"
+    }
+    responseContainer.insertAdjacentHTML('afterbegin', htmlContent);
   }
 
   function addImage(images) {
