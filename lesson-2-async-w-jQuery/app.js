@@ -43,13 +43,18 @@
   }
 
   function addImage(images) {
-    const firstImage = images.results[0];
+    if(images.results[0]){
+      const firstImage = images.results[0];
 
-    responseContainer.insertAdjacentHTML('afterbegin', `<figure>
+      responseContainer.insertAdjacentHTML('afterbegin', `<figure>
             <img src="${firstImage.urls.full}" alt="${searchedForText}">
             <figcaption>${searchedForText} by ${firstImage.user.name}</figcaption>
         </figure>`
-    );
+      );
+    }
+    else {
+      responseContainer.insertAdjacentHTML('afterbegin',`<h2> No images found </h2>`)
+    }
   }
 
 })();
