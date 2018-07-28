@@ -17,7 +17,17 @@
       .then(addImage);
 
       function addImage(data) {
-        debugger;
+        let htmlContent = '';
+        const firstImage = data.results[0];
+
+        if(firstImage) {
+        htmlContent = `<figure> <img src="${firstImage.urls.small}" alt="$searchedForText">
+            <figcaption>${searchedForText} by ${firstImage.user.name}</figcaption>
+            </figure>`;
+        } else {
+          htmlContent = 'Unfortunately no image match your request'
+        }
+        responseContainer.insertAdjacentHTML('afterbegin', htmlContent);
       }
     });
 })();
