@@ -17,6 +17,12 @@
       .then(addImage)
       .catch(e => requestError(e, 'image'));
 
+    fetch(`http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${searchedForText}&api-key=0fd16f9ca25b4e0ea140b5e5aa1aa085` ,{
+    }).then(response => response.json())
+      .then(addArticle)
+      .catch(e => requestError(e, 'article'));
+
+
     function addImage(data) {
       let htmlContent = '';
       const firstImage = data.results[0];
@@ -27,6 +33,25 @@
             </figure>`;
       } else {
         htmlContent = 'Unfortunately no image match your request'
+      }
+      responseContainer.insertAdjacentHTML('afterbegin', htmlContent);
+    }
+
+    function addArticle(data) {
+      console.log(data.response.docs)
+      let htmlContent = '';
+      const articles = data.response.docs;
+
+      if(articles) {
+        htmlContent ='<ul>' + articles.map(article =>
+          `<li class="article">
+             <h2>
+               <a href="${article.web_url}">${article.snippet}</a>
+             </h2>
+           </li>` + '</ul>'
+        )}
+      else {
+        htmlContent = 'Unfortunately no articles match your request'
       }
       responseContainer.insertAdjacentHTML('afterbegin', htmlContent);
     }
