@@ -8,5 +8,13 @@
         e.preventDefault();
         responseContainer.innerHTML = '';
         searchedForText = searchField.value;
+
+      fetch(`https://api.unsplash.com/search/photos?page=1&query=${searchedForText}`,{
+        headers: {
+          Authorization: 'Client-ID ed4ea3b388f4503fa9a5817e2e5250171fd92b3b61ff520ff9f6027cff251a67'
+        }
+      }).then(function(response) {
+        debugger; // returned response
+      })
     });
 })();
